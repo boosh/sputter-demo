@@ -4,7 +4,8 @@ import autowire._
 import org.scalajs.dom
 import sputterdemo.web.styles.GlobalStyle
 import sputter.js.AjaxClient
-import sputter.shared.{Api, SimpleRegistrationForm}
+import sputter.shared.SimpleRegistrationForm
+import sputterdemo.shared.Api
 import sri.core._
 import sri.scalacss.Defaults._
 import sri.web.all._

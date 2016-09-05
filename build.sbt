@@ -55,7 +55,12 @@ lazy val sputterDemo = crossProject.in(file("."))
 
       // type-safe REST calls
       "com.lihaoyi" %% "autowire" % "0.2.5",
-      "com.lihaoyi" %% "upickle" % "0.4.1"
+      "com.lihaoyi" %% "upickle" % "0.4.1",
+
+      // utils
+      "commons-io" % "commons-io" % "2.4",
+      "org.jsoup" % "jsoup" % "1.9.2",
+      "org.scalaz" %% "scalaz-core" % "7.2.3"
     )
   )
   .jsSettings(commonSettings: _*)
