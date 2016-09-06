@@ -6,16 +6,15 @@ import akka.stream.ActorMaterializer
 import com.typesafe.config.ConfigFactory
 import sputter.jvm.components.RestRouter
 import sputter.jvm.components.contact.ContactApiImpl
-import sputter.jvm.components.contact.datastore.ContactService
+import sputter.jvm.components.contact.datastore.ContactServiceImpl
 import sputter.jvm.datastores.mock.contact.ContactMockDataStore
 import akka.http.scaladsl.server.Directives._
 import sputterdemo.shared.Api
-import sputter.shared.{ContactApi, RegistrationApi}
 import sputter.jvm.components.akkahttp.CorsSupport
 import akka.http.scaladsl.model.HttpHeader
 import akka.http.scaladsl.model.headers.{`Access-Control-Allow-Credentials`, `Access-Control-Allow-Headers`, `Access-Control-Max-Age`}
 import sputter.jvm.components.registration.RegistrationApiImpl
-import sputter.jvm.components.registration.datastore.RegistrationService
+import sputter.jvm.components.registration.datastore.RegistrationServiceImpl
 import sputter.jvm.datastores.mock.registration.RegistrationMockDataStore
 
 trait ApiImpl extends Api with ContactApiImpl with RegistrationApiImpl
@@ -50,14 +49,10 @@ object Server extends App with CorsSupport with ApiImpl {
   val logger = Logging(system, getClass)
 
   /**
-    * Routes with mock logging endpoints. Test them with:
-    *
-    * curl -H "Content-Type: application/json" -X POST \
-    *   -d '{"body":"test contact form body", "name": "Me", "email": "me@example.com"}' \
-    *   http://SERVER_HOST:SERVER_PORT/contact
+    * Routes with mock logging endpoints.
     */
-  val contactService = new ContactService(new ContactMockDataStore())
-  val registrationService = new RegistrationService(new RegistrationMockDataStore())
+  val contactService = new ContactServiceImpl(new ContactMockDataStore())
+  val registrationService = new RegistrationServiceImpl(new RegistrationMockDataStore())
 
   val route = cors {
     get {
