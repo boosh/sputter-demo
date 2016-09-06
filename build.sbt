@@ -19,7 +19,7 @@ lazy val commonSettings = Seq(
 resolvers += Resolver.mavenLocal
 
 
-lazy val root = (project in file("."))
+lazy val demoRoot = (project in file("."))
   .settings(commonSettings: _*)
   .settings(Seq(
     publish := {},
@@ -44,9 +44,9 @@ lazy val sputterDemo = crossProject.in(file("."))
   .jvmSettings(
     libraryDependencies ++= Seq(
       "com.typesafe" % "config" % "1.3.0",
-      "com.typesafe.akka" %% "akka-actor" % "2.4.8",
+//      "com.typesafe.akka" %% "akka-actor" % "2.4.8",
       "com.typesafe.akka" % "akka-http-experimental_2.11" % "2.4.8",
-      "com.typesafe.akka" %% "akka-http-spray-json-experimental" % "2.4.8",
+//      "com.typesafe.akka" %% "akka-http-spray-json-experimental" % "2.4.8",
       "com.typesafe.akka" %% "akka-slf4j" % "2.4.8",
 
       // logging
