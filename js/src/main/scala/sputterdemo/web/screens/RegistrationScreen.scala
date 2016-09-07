@@ -5,7 +5,7 @@ import org.scalajs.dom
 import sputterdemo.web.styles.GlobalStyle
 import sputter.js.AjaxClient
 import sputter.shared.SimpleRegistrationForm
-import sputterdemo.shared.Api
+import sputterdemo.shared.TypedApi
 import sri.core._
 import sri.scalacss.Defaults._
 import sri.web.all._
@@ -38,7 +38,7 @@ object RegistrationScreen {
 
       println(s"Inside click handler for registration form")
 
-      AjaxClient[Api].register(form).call().foreach { r =>
+      AjaxClient[TypedApi].register(form).call().foreach { r =>
         dom.console.log(s"Received response to REST call: $r")
 
         // todo: show a success message on success, or the list of error

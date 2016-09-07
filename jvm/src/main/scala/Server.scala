@@ -9,15 +9,16 @@ import sputter.jvm.components.contact.ContactApiImpl
 import sputter.jvm.components.contact.datastore.ContactServiceImpl
 import sputter.jvm.datastores.mock.contact.ContactMockDataStore
 import akka.http.scaladsl.server.Directives._
-import sputterdemo.shared.Api
+import sputterdemo.shared.TypedApi
 import sputter.jvm.components.akkahttp.CorsSupport
 import akka.http.scaladsl.model.HttpHeader
 import akka.http.scaladsl.model.headers.{`Access-Control-Allow-Credentials`, `Access-Control-Allow-Headers`, `Access-Control-Max-Age`}
 import sputter.jvm.components.registration.RegistrationApiImpl
 import sputter.jvm.components.registration.datastore.RegistrationServiceImpl
 import sputter.jvm.datastores.mock.registration.RegistrationMockDataStore
+import sputter.shared.{RegistrationForm, SimpleRegistrationForm}
 
-trait ApiImpl extends Api with ContactApiImpl with RegistrationApiImpl
+trait ApiImpl extends TypedApi with ContactApiImpl with RegistrationApiImpl
 
 /**
   * Demo server using sputter components.
@@ -52,7 +53,8 @@ object Server extends App with CorsSupport with ApiImpl {
     * Routes with mock logging endpoints.
     */
   val contactService = new ContactServiceImpl(new ContactMockDataStore())
-  val registrationService = new RegistrationServiceImpl(new RegistrationMockDataStore())
+  val registrationService = new RegistrationServiceImpl[Form](
+    new RegistrationMockDataStore[Form]())
 
   val route = cors {
     get {
@@ -68,7 +70,7 @@ object Server extends App with CorsSupport with ApiImpl {
           // todo: would be nice to `reject` calls that resulted in errors instead
           // of blindly `complete`-ing everything
           complete {
-            RestRouter.route[Api](Server)(
+            RestRouter.route[TypedApi](Server)(
               autowire.Core.Request(
                 s,
                 upickle.default.read[Map[String, String]](e)
